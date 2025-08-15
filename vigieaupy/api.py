@@ -1,4 +1,4 @@
-"""API for querying French addresses using the address fr."""
+"""API for querying data using the VigiEau fr."""
 
 import logging
 from typing import Any

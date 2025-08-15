@@ -12,14 +12,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class HTTPRequest:
-    """Authentication for VigiEau API requests."""
+    """Authentication for API requests."""
 
     TIMEOUT = 120  # Default timeout for requests in seconds
 
     def __init__(
         self, session: ClientSession | None = None, timeout: int = TIMEOUT
     ) -> None:
-        """Initialize the VigiEauAuth."""
+        """Initialize."""
         self.timeout = timeout
         self.session = session or ClientSession()
 
