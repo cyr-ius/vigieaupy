@@ -1,10 +1,9 @@
-"""This example can be run safely as it won't change anything in your box configuration."""
+"""Usage example for the VigiEau client."""
 
 import asyncio
 import logging
 
-from vigieaupy import VigiEau
-from vigieaupy.exceptions import VigiEauException
+from vigieaupy import Consommateur, Source, VigiEau, VigiEauException
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -15,13 +14,22 @@ logger.addHandler(ch)
 
 
 async def async_main() -> None:
-    """Instantiate class."""
+    """Demonstrate basic usage of the VigiEau client."""
     api = VigiEau()
 
     try:
-        data = await api.async_get_data(longitude=5.405, latitude=43.282, city_id=13055)
-        for item in data:
-            logger.info("Found: %s", item)
+        communes = await api.async_get_cog(name="La Croix-aux-Bois")
+        for item in communes:
+            logger.info("Commune: %s", item)
+
+        vigieau_data = await api.async_get_data(
+            codeInsee=communes[0]["code"],
+            source=Source.AEP,
+            consommateur=Consommateur.particulier,
+        )
+        for item in vigieau_data:
+            logger.info("VigiEau data: %s", item)
+
     except VigiEauException as err:
         logger.error(err)
         return
@@ -30,6 +38,4 @@ async def async_main() -> None:
 
 
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
     asyncio.run(async_main())
