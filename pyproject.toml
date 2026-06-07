@@ -22,7 +22,6 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Framework :: AsyncIO",
     "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
     "Topic :: Home Automation",
 ]
 requires-python = ">=3.10.0"
@@ -32,6 +31,7 @@ dependencies    = [
 
 [project.optional-dependencies]
 dev = [
+    "prek",
     "ruff",
 ]
 
@@ -42,14 +42,9 @@ Homepage = "https://github.com/cyr-ius/vigieaupy"
 
 [tool.setuptools]
 platforms = ["any"]
-zip-safe  = false
-include-package-data = true
 
 [tool.setuptools.packages.find]
 exclude = ["node_modules*"]
-
-[tool.ruff.lint.flake8-pytest-style]
-fixture-parentheses = false
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
