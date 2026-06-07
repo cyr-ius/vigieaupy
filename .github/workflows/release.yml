@@ -23,3 +23,4 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}
+          token: ${{ secrets.RELEASE_TOKEN }}
