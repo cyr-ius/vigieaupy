@@ -23,10 +23,3 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}
-
-  publish:
-    needs: release
-    if: ${{ !contains(github.ref_name, '-') }}
-    uses: ./.github/workflows/python-publish.yml
-    permissions:
-      id-token: write
