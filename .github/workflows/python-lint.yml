@@ -23,5 +23,5 @@ jobs:
       - name: 📦 Install dependencies
         run: uv sync --extra dev
 
-      - name: Run pre-commit
-        uses: pre-commit/action@v3.0.1
+      - name: Run prek
+        run: uv run prek run --all-files
