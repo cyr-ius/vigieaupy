@@ -11,36 +11,37 @@ from .exceptions import VigiEauException
 _LOGGER = logging.getLogger(__name__)
 
 
-class Source(str, Enum):
+class LabeledEnum(str, Enum):
+    """Base Enum with a French display label and reverse lookup."""
+
+    label: str
+
+    def __new__(cls, value: str, label: str) -> "LabeledEnum":
+        obj = str.__new__(cls, value)
+        obj._value_ = value
+        obj.label = label
+        return obj
+
+    @classmethod
+    def from_label(cls, label: str) -> "LabeledEnum":
+        return next(m for m in cls if m.label == label)
+
+
+class Source(LabeledEnum):
     """Water resource type."""
 
-    AEP = "AEP"
-    SUP = "SUP"
-    SOU = "SOU"
+    AEP = ("AEP", "Eau du robinet")
+    SUP = ("SUP", "Cours d'eau et rivières")
+    SOU = ("SOU", "Des nappes (puits ou forages)")
 
 
-LABELS_TYPE_EAU: dict["Source", str] = {
-    Source.AEP: "Eau du robinet",
-    Source.SUP: "Cours d'eau et rivières",
-    Source.SOU: "Des nappes (puits ou forages)",
-}
-
-
-class Consommateur(str, Enum):
+class Consommateur(LabeledEnum):
     """Consumer profile type."""
 
-    particulier = "particulier"
-    exploitation = "exploitation"
-    entreprise = "entreprise"
-    collectivite = "collectivité"
-
-
-LABELS_CONSOMMATEUR: dict["Consommateur", str] = {
-    Consommateur.particulier: "Particulier",
-    Consommateur.exploitation: "Exploitation agricole",
-    Consommateur.entreprise: "Professionnel",
-    Consommateur.collectivite: "Collectivité",
-}
+    particulier = ("particulier", "Particulier")
+    exploitation = ("exploitation", "Exploitation agricole")
+    entreprise = ("entreprise", "Professionnel")
+    collectivite = ("collectivité", "Collectivité")
 
 
 class VigiEau(HTTPRequest):
